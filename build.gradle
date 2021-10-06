@@ -108,6 +108,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
+    implementation fg.deobf("com.ldtteam:datagenerators:${datagen_version}")
     implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
     implementation fg.deobf("com.minecolonies:minecolonies:${minecolonies_version}:universal") {
         exclude group: 'mezz.jei'
