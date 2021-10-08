@@ -67,7 +67,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'complexcolonists', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'complexcolonists', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources/')
 
             mods {
                 complexcolonists {
@@ -100,13 +100,38 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
+        name 'CurseMaven'
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        name 'BlameJared'
+        url 'https://maven.blamejared.com'
+    }
+    maven {
         name 'LDTTeam - Modding'
         url 'https://ldtteam.jfrog.io/ldtteam/modding/'
+    }
+    maven {
+        name "Progwml6 maven"
+        url "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        name "ModMaven"
+        url "https://modmaven.k-4u.nl"
     }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    runtimeOnly fg.deobf("curse.maven:cucumber-272335:${cucumber_curse}")
+
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
     implementation fg.deobf("com.ldtteam:datagenerators:${datagen_version}")
     implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
