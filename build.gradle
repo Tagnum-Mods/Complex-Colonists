@@ -67,7 +67,12 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'complexcolonists', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources/')
+            args '--mod', 'complexcolonists', '--all',
+                    '--existing-mod', 'minecolonies',
+                    '--existing-mod', 'structurize',
+                    '--output', file('src/generated/resources/'),
+                    '--existing', file('src/main/resources/'),
+                    '--existing', file('src/generated/resources/')
 
             mods {
                 complexcolonists {
