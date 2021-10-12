@@ -160,6 +160,8 @@ dependencies {
 }
 
 jar {
+    exclude '*.bbmodel'
+
     manifest {
         attributes([
             "Specification-Title": "complexcolonists",
