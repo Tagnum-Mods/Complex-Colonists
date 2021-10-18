@@ -2,15 +2,15 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"0": "1.16.5:block/spruce_planks",
-		"1": "1.16.5:block/dark_oak_planks",
-		"2": "1.16.5:block/iron_block",
-		"3": "1.16.5:item/paper",
-		"4": "1.16.5:item/feather",
-		"5": "1.16.5:block/black_stained_glass",
-		"6": "1.16.5:block/black_wool",
-		"7": "1.16.5:item/emerald",
-		"particle": "1.16.5:block/dark_oak_planks"
+		"0": "minecraft:block/spruce_planks",
+		"1": "minecraft:block/dark_oak_planks",
+		"2": "minecraft:block/iron_block",
+		"3": "minecraft:item/paper",
+		"4": "minecraft:item/feather",
+		"5": "minecraft:block/black_stained_glass",
+		"6": "minecraft:block/black_wool",
+		"7": "minecraft:item/emerald",
+		"particle": "minecraft:block/dark_oak_planks"
 	},
 	"elements": [
 		{
