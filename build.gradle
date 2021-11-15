@@ -8,6 +8,12 @@ buildscript {
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
+
+plugins {
+    id 'org.jetbrains.changelog' version '1.2.1'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
@@ -142,7 +148,6 @@ dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
-    runtimeOnly fg.deobf("curse.maven:cucumber-272335:${cucumber_curse}")
 
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
@@ -154,24 +159,26 @@ dependencies {
         exclude group: 'com.ldtteam'
     }
 
-    implementation fg.deobf("curse.maven:extended-crafting-268387:${extendedcrafting_curse}")
 
+    // Mixin Stuff
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    implementation 'com.intellij:annotations:12.0@jar'
 }
 
 jar {
     exclude '*.bbmodel'
+    exclude '*.svg'
 
     manifest {
         attributes([
-            "Specification-Title": "complexcolonists",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${mod_version}",
-            "Implementation-Vendor" :"examplemodsareus",
+            "Specification-Title"     : "complexcolonists",
+            "Specification-Vendor"    : "examplemodsareus",
+            "Specification-Version"   : "1", // We are version 1 of ourselves
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : "${mod_version}",
+            "Implementation-Vendor"   : "examplemodsareus",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConnector": "com.tagnumelite.complexcolonists.core.mixin.MixinConnector"
+            "MixinConnector"          : "com.tagnumelite.complexcolonists.core.mixin.MixinConnector"
         ])
     }
 }
@@ -187,6 +194,35 @@ publishing {
     repositories {
         maven {
             url "file:///${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+changelog {
+    version = "${project.version}"
+    path = "${project.projectDir}/CHANGELOG.md"
+    header = "[${-> version.get()}]"
+    itemPrefix = "-"
+    keepUnreleasedSection = true
+    unreleasedTerm = "[Unreleased]"
+    groups = ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]
+}
+
+if (System.getenv().CURSEFORGE_API_KEY != null) {
+    curseforge {
+        debug = true
+        apiKey = System.getenv().CURSEFORGE_API_KEY
+        project {
+            id = '000000'
+            addGameVersion "${mc_version}"
+            changelog = "${project.changelog.get(mod_version).toString()}"
+            changelogType = 'markdown'
+            releaseType = "alpha"
+
+            mainArtifact(jar) {
+                relations {
+                    requiredDependency 'minecolonies'
+                }
+            }
         }
     }
 }
