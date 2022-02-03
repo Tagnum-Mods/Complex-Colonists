@@ -7,19 +7,19 @@ issueTrackerURL="https://github.com/Tagnum-Mods/Complex-Colonists/issues"
 modId="complexcolonists"
 version="${file.jarVersion}"
 displayName="Complex Colonists"
-updateJSONURL="https://github.com/Tagnum-Mods/Complex-Colonists/updates.json"
+#updateJSONURL="https://github.com/Tagnum-Mods/Complex-Colonists/updates.json"
 displayURL="https://github.com/Tagnum-Mods/Complex-Colonists"
 logoFile="complex-colonists.png"
-credits="Thanks to the LDTTeam for the awesome minecolonies mod!"
+credits="Thanks to the LDTTeam for the awesome Minecolonies mod!"
 authors="TagnumElite"
 description='''A mod that adds more jobs and buildings for your colonists to take on!'''
 
-[[dependencies.complexcolonists]]
-    modId="minecolonies"
-    mandatory=true
-    versionRange="[${minecolonies_version},)"
-    ordering="NONE"
-    side="BOTH"
+#[[dependencies.complexcolonists]]
+#    modId="minecolonies"
+#    mandatory=true
+#    versionRange="[${minecolonies_version},)"
+#    ordering="NONE"
+#    side="BOTH"
 
 [[dependencies.complexcolonists]]
     modId="forge"

@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "complexcolonists.refmap.json",
   "mixins": [
-    "MixinStructureName"
+    "MixinCitizenManager"
   ],
   "client": [
   ],
