@@ -147,17 +147,21 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
+    // ===== [ Minecolonies ] =====
+    implementation fg.deobf("com.ldtteam:datagenerators:${datagen_version}")
+    implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
+    implementation fg.deobf("com.ldtteam:minecolonies:${minecolonies_version}")
+
+    // ===== [ Optional ] =====
+
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+    implementation fg.deobf("curse.maven:cucumber-272335:${cucumber_curse}")
+    implementation fg.deobf("curse.maven:extended-crafting-268387:${extendedcrafting_curse}")
 
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-    implementation fg.deobf("com.ldtteam:datagenerators:${datagen_version}")
-    implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
-    implementation fg.deobf("com.minecolonies:minecolonies:${minecolonies_version}:universal") {
-        exclude group: 'mezz.jei'
-        exclude group: 'com.ldtteam'
-    }
 
 
     // Mixin Stuff
@@ -197,6 +201,7 @@ publishing {
         }
     }
 }
+
 changelog {
     version = "${project.version}"
     path = "${project.projectDir}/CHANGELOG.md"
