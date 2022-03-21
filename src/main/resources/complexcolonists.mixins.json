@@ -5,9 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "complexcolonists.refmap.json",
   "mixins": [
-    "MixinCitizenManager"
   ],
   "client": [
+    "MixinWindowMinecoloniesBuildTool"
   ],
   "injectors": {
     "defaultRequire": 1
