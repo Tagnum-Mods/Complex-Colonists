@@ -20,6 +20,13 @@ build
 # other
 eclipse
 run
+docs/_build
+
+# Exclude all Mac DS_Store files
+/**/.DS_Store
+
+# Exclude all Windows stuff
+/**/Thumbs.db
 
 # Files from Forge MDK
 forge*changelog.txt
