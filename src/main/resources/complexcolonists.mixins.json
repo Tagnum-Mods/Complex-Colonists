@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "complexcolonists.refmap.json",
   "mixins": [
+    "MixinAbstractBlockHut"
   ],
   "client": [
     "MixinWindowMinecoloniesBuildTool"
