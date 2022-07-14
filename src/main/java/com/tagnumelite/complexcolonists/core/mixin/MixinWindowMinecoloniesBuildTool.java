@@ -1,9 +1,9 @@
 package com.tagnumelite.complexcolonists.core.mixin;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.BlockItem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,20 +31,15 @@ public abstract class MixinWindowMinecoloniesBuildTool extends WindowBuildTool {
      */
     @Overwrite
     @Override
-    public boolean hasMatchingBlock(@NotNull PlayerInventory inventory, String hut) {
+    public boolean hasMatchingBlock(@NotNull Inventory inventory, String hut) {
         final String name = hut.equals("citizen") ? "home" : hut;
-        return InventoryUtils.hasItemInProvider(inventory.player,
-                item -> {
-                    BuildingEntry buildingReg = IBuildingRegistry.getInstance()
-                                                                 .getValue(
-                                                                         new ResourceLocation(
-                                                                                 item.getItem()
-                                                                                     .getRegistryName()
-                                                                                     .getNamespace(),
-                                                                                 name));
-                    return item.getItem() instanceof BlockItem
-                           && StructureName.HUTS.contains(hut) && buildingReg != null
-                           && ((BlockItem) item.getItem()).getBlock() == buildingReg.getBuildingBlock();
-                });
+        return InventoryUtils.hasItemInProvider(inventory.player, item -> {
+            BuildingEntry buildingReg = IBuildingRegistry.getInstance()
+                                                         .getValue(new ResourceLocation(
+                                                                 item.getItem().getRegistryName().getNamespace(),
+                                                                 name));
+            return item.getItem() instanceof BlockItem && StructureName.HUTS.contains(
+                    hut) && buildingReg != null && ((BlockItem) item.getItem()).getBlock() == buildingReg.getBuildingBlock();
+        });
     }
 }
