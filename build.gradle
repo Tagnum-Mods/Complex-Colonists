@@ -10,14 +10,13 @@ buildscript {
 }
 
 plugins {
+    id 'eclipse'
+    id 'maven-publish'
     id 'org.jetbrains.changelog' version '1.2.1'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
-
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 // MixinGradle:
 apply plugin: 'org.spongepowered.mixin'
 
@@ -25,9 +24,10 @@ version = "${mod_version}"
 group = 'com.tagnumelite.complexcolonists'
 archivesBaseName = 'complexcolonists'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
+//println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     // You must be aware of the Mojang license when using the 'official' mappings.
     // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
@@ -44,6 +44,27 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'complexcolonists'
+
+            mods {
+                complexcolonists {
+                    //source sourceSets.api
+                    source sourceSets.main
+                }
+            }
+        }
+
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            workingDirectory project.file('run')
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'complexcolonists'
 
             mods {
                 complexcolonists {
@@ -59,6 +80,7 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'complexcolonists'
 
             mods {
                 complexcolonists {
@@ -78,6 +100,9 @@ minecraft {
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             args '--mod', 'complexcolonists', '--all',
                     '--existing-mod', 'minecolonies',
+                    '--existing-mod', 'blockui',
+                    '--existing-mod', 'multi-piston',
+                    '--existing-mod', 'domum_ornamentum',
                     '--existing-mod', 'structurize',
                     '--output', file('src/generated/resources/'),
                     '--existing', file('src/main/resources/'),
@@ -95,6 +120,10 @@ minecraft {
 mixin {
     add sourceSets.main, "complexcolonists.refmap.json"
     config 'complexcolonists.mixins.json'
+}
+
+processResources {
+    exclude('**/*.xcf')
 }
 
 /*
@@ -119,6 +148,11 @@ processResources {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    mavenLocal()
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
     maven {
         name 'CurseMaven'
         url "https://cursemaven.com"
@@ -151,10 +185,14 @@ dependencies {
     implementation fg.deobf("com.ldtteam:datagenerators:${datagen_version}")
     implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
     implementation fg.deobf("com.ldtteam:minecolonies:${minecolonies_version}")
+    implementation fg.deobf("com.ldtteam:domum_ornamentum:${domum_ornamentum_version}:universal")
+    implementation fg.deobf("com.ldtteam:multi-piston:${multi_piston_version}")
+    implementation fg.deobf("com.ldtteam:blockui:${blockui_version}")
 
     // ===== [ Optional ] =====
 
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
     implementation fg.deobf("curse.maven:cucumber-272335:${cucumber_curse}")
     implementation fg.deobf("curse.maven:extended-crafting-268387:${extendedcrafting_curse}")
