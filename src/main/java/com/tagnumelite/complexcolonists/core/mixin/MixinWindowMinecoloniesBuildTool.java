@@ -4,6 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,9 +15,12 @@ import org.spongepowered.asm.mixin.Overwrite;
 import com.minecolonies.api.colony.buildings.registry.BuildingEntry;
 import com.minecolonies.api.colony.buildings.registry.IBuildingRegistry;
 import com.minecolonies.api.util.InventoryUtils;
+import com.minecolonies.api.util.constant.Constants;
 import com.minecolonies.coremod.client.gui.WindowMinecoloniesBuildTool;
 import com.ldtteam.structurize.client.gui.WindowBuildTool;
 import com.ldtteam.structurize.management.StructureName;
+
+import java.util.function.Predicate;
 
 @Mixin(value = WindowMinecoloniesBuildTool.class, remap = false)
 public abstract class MixinWindowMinecoloniesBuildTool extends WindowBuildTool {
@@ -33,13 +39,20 @@ public abstract class MixinWindowMinecoloniesBuildTool extends WindowBuildTool {
     @Override
     public boolean hasMatchingBlock(@NotNull Inventory inventory, String hut) {
         final String name = hut.equals("citizen") ? "home" : hut;
-        return InventoryUtils.hasItemInProvider(inventory.player, item -> {
-            BuildingEntry buildingReg = IBuildingRegistry.getInstance()
-                                                         .getValue(new ResourceLocation(
-                                                                 item.getItem().getRegistryName().getNamespace(),
-                                                                 name));
-            return item.getItem() instanceof BlockItem && StructureName.HUTS.contains(
-                    hut) && buildingReg != null && ((BlockItem) item.getItem()).getBlock() == buildingReg.getBuildingBlock();
-        });
+        final IForgeRegistry<BuildingEntry> buildingRegistry = IBuildingRegistry.getInstance();
+
+        Predicate<ItemStack> predicate = (itemStack) -> {
+            final Item item = itemStack.getItem();
+            final String namespace = (item.getRegistryName() != null) ? item.getRegistryName().getNamespace() : Constants.MOD_ID;
+            final ResourceLocation registryName = new ResourceLocation(namespace, name);
+
+            final boolean isBlockItem = item instanceof BlockItem;
+            final boolean isHut       = StructureName.HUTS.contains(hut);
+            final boolean buildingBlockExists = ((BlockItem) itemStack.getItem()).getBlock() == buildingRegistry.getValue(registryName).getBuildingBlock();
+
+            return isBlockItem && isHut && buildingBlockExists;
+        };
+
+        return InventoryUtils.hasItemInProvider(inventory.player, predicate);
     }
 }
