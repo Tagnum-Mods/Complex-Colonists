@@ -43,16 +43,21 @@ public abstract class MixinWindowMinecoloniesBuildTool extends WindowBuildTool {
 
         Predicate<ItemStack> predicate = (itemStack) -> {
             final Item             item         = itemStack.getItem();
-            final String           namespace    = (item.getRegistryName() != null) ? item.getRegistryName()
-                                                                                         .getNamespace() : Constants.MOD_ID;
-            final ResourceLocation registryName = new ResourceLocation(namespace, name);
-
             final boolean isBlockItem = item instanceof BlockItem;
             final boolean isHut       = StructureName.HUTS.contains(hut);
-            final boolean buildingBlockExists = isBlockItem && ((BlockItem) itemStack.getItem()).getBlock() == buildingRegistry.getValue(
-                    registryName).getBuildingBlock();
+            boolean isBuildingBlock = false;
+            
+            if (isBlockItem && isHut) {
+                final String           namespace    = (item.getRegistryName() != null) ? item.getRegistryName()
+                                                                                             .getNamespace() : Constants.MOD_ID;
+                final ResourceLocation registryName = new ResourceLocation(namespace, name);
 
-            return isBlockItem && isHut && buildingBlockExists;
+                @Nullable BuildingEntry buildingEntry = buildingRegistry.getValue(registryName);
+
+                if (buildingEntry != null) isBuildingBlock = ((BlockItem) itemStack.getItem()).getBlock() == buildingEntry.getBuildingBlock();
+            }
+
+            return isBlockItem && isHut && isBuildingBlock;
         };
 
         return InventoryUtils.hasItemInProvider(inventory.player, predicate);
