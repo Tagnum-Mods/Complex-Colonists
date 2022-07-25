@@ -3,6 +3,7 @@ package com.tagnumelite.complexcolonists;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonStreamParser;
 import com.mojang.logging.LogUtils;
+import com.tagnumelite.complexcolonists.core.CCBlockEntities;
 import net.minecraft.Util;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -40,8 +41,8 @@ import java.net.URL;
 
 @Mod(ComplexColonists.MOD_ID)
 public class ComplexColonists {
-    public static final String        MOD_ID = "complexcolonists";
-    public static final  Logger LOGGER   = LogUtils.getLogger();
+    public static final  String       MOD_ID   = "complexcolonists";
+    public static final  Logger       LOGGER   = LogUtils.getLogger();
     //public static final  IProxy PROXY    = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     private static       ModContainer MOD_CONTAINER;
     private static       boolean      hasSentMessage;
@@ -61,7 +62,7 @@ public class ComplexColonists {
         //CCBlocks.BLOCKS.register(modEventBus);
         //CCContainers.CONTAINERS.register(modEventBus);
         //CCItems.ITEMS.register(modEventBus);
-        //CCTileEntities.TILES.register(modEventBus);
+        CCBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         //CCJobs.JOBS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
