@@ -1,4 +1,4 @@
-package com.tagnumelite.complexcolonists.api;
+package com.tagnumelite.complexcolonists.api.util;
 
 import com.tagnumelite.complexcolonists.ComplexColonists;
 import net.minecraft.resources.ResourceLocation;
@@ -36,4 +36,5 @@ public final class CCUtils {
     public static String getItemKey(Item item, String path) {
         final ResourceLocation regName = item.getRegistryName();
         return "item." + (regName != null ? regName.getNamespace() + '.' : "") + regName.getPath() + '.' + path;
-    }}
+    }
+}
