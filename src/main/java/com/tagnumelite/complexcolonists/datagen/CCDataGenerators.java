@@ -17,6 +17,7 @@ public final class CCDataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         if (event.includeClient()) {
+            generator.addProvider(new CCLanguageProvider(generator, "en_us"));
         }
     }
 }
