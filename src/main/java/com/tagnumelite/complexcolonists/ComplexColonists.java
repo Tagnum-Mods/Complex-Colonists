@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonStreamParser;
 import com.mojang.logging.LogUtils;
 import com.tagnumelite.complexcolonists.core.CCBlockEntities;
+import com.tagnumelite.complexcolonists.core.init.CCInteractionValidatorInit;
 import net.minecraft.Util;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -67,6 +68,8 @@ public class ComplexColonists {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        CCInteractionValidatorInit.init();
 
         //PROXY.init();
     }
