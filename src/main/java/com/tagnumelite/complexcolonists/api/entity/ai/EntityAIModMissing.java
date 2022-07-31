@@ -2,7 +2,6 @@ package com.tagnumelite.complexcolonists.api.entity.ai;
 
 import com.tagnumelite.complexcolonists.ComplexColonists;
 import com.tagnumelite.complexcolonists.api.colony.jobs.AModdedJob;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.fml.ModList;
@@ -25,27 +24,25 @@ public class EntityAIModMissing<AI extends AbstractAISkeleton<J>, J extends AMod
     private final String modId;
 
     /**
-     * Creates the abstract part of the AI. Always use this constructor!
+     * Creates an EntityAI for jobs whose required modid is missing.
      *
-     * @param job   the job to fulfill
-     * @param modId
+     * @param job   The job because the parent needs this
+     * @param modId The modid of the mod that is mossing
      */
     public EntityAIModMissing(@NotNull AModdedJob<AI, J> job, String modId) {
         super((J) job);
         this.modId = modId;
-        super.registerTargets(
-                new AIEventTarget<>(AIBlockingEventType.AI_BLOCKING, () -> INIT , 2000),
-                new AITarget(INIT, () -> IDLE, 1),
-                new AITarget(IDLE, this::missingMod, 200));
-        ComplexColonists.LOGGER.debug("Created Missing Mod AI for {}", modId);
+        super.registerTargets(new AIEventTarget<>(AIBlockingEventType.AI_BLOCKING, () -> INIT, 2000),
+                              new AITarget(INIT, () -> IDLE, 1), new AITarget(IDLE, this::missingMod, 200));
+        ComplexColonists.LOGGER.warn("Created EntityAI for worker missing mod: {}", modId);
     }
 
     private IAIState missingMod() {
-        ComplexColonists.LOGGER.debug("Missing Mod State for {}", modId);
         worker.getCitizenData()
               .triggerInteraction(
-                      new StandardInteraction(new TranslatableComponent(WORKER_MISSING_MOD, new TextComponent(modId)), ChatPriority.BLOCKING));
-        ComplexColonists.LOGGER.debug("Triggered Interaction");
+                      // TODO: Fix this, the MODID is not getting passed through to the interaction
+                      new StandardInteraction(new TranslatableComponent(WORKER_MISSING_MOD, new TextComponent(modId)),
+                                              ChatPriority.BLOCKING));
         return IDLE;
     }
 
