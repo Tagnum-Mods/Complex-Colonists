@@ -49,6 +49,7 @@ public class CCLanguageProvider extends LanguageProvider {
 
     protected void addGUIs() {
         add(TranslationConstants.WORKER_MISSING_MOD, "This worker is missing the required mod (%1$s) to be activated");
+        add(TranslationConstants.UPDATE_AVAILABLE, "There is an update for Complex Colonists. %s -> %s");
     }
 
     protected void addCreativeTab(CreativeModeTab tab, String value) {
