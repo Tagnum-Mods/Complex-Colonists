@@ -12,11 +12,6 @@ import com.minecolonies.api.blocks.AbstractBlockHut;
 
 public abstract class AbstractCCBlockHut<T extends AbstractBlockHut<T>> extends AbstractBlockHut<T> {
     @Override
-    public String getHutName() {
-        return "blockhut" + getRegistryName().getPath();
-    }
-
-    @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
         final CCBlockEntityColonyBuilding building = CCBlockEntities.BUILDING.get().create(blockPos, blockState);
         assert building != null; // TODO: Inspect this
