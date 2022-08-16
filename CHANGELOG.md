@@ -7,5 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Mixin to WindowMinecoloniesBuildTool to fix the build tool adding a block
+- ResourceLocation utils `modRlTextures` and `modRlGuiTextures` to CCUtils
+- CreativeModeTabs `General` `Decorations` and `Unloaded`
+
+### Changed
+- Using [ParchmentMC] mappings
+- build.gradle processResources now add information to mods.toml
+
+### Removed
+- getHutName override from AbstractCCBlockHut
 
 [Unreleased]: https://github.com/Tagnum-Mods/Complex-Colonists/compare/master...HEAD
