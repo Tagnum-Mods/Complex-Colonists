@@ -15,6 +15,8 @@ public abstract class AModdedJob<AI extends AbstractAISkeleton<J>, J extends AMo
      * Initialize citizen data.
      *
      * @param entity the citizen data.
+     * @param modId  The modid of the required mod
+     * @todo: Implement support of mutiple required mods
      */
     public AModdedJob(ICitizenData entity, String modId) {
         super(entity);
