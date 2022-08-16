@@ -8,4 +8,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Mixin to WindowMinecoloniesBuildTool to fix the build tool adding a block
 
-[Unreleased]: https://github.com/TagnumElite/Complex-Colonists/compare/master...HEAD
+[Unreleased]: https://github.com/Tagnum-Mods/Complex-Colonists/compare/master...HEAD

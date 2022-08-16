@@ -1,10 +1,12 @@
 buildscript {
     repositories {
         maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
@@ -16,6 +18,7 @@ plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 // MixinGradle:
 apply plugin: 'org.spongepowered.mixin'
@@ -26,6 +29,7 @@ archivesBaseName = 'complexcolonists'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
 sourceSets {
     api {
         java {}
@@ -39,14 +43,16 @@ configurations {
     apiRuntimeOnly.extendsFrom(runtimeOnly)
     implementation.extendsFrom library
 }
-//println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     // You must be aware of the Mojang license when using the 'official' mappings.
     // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
-    mappings channel: 'official', version: "${mc_version}"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    //mappings channel: 'official', version: "${mc_version}"
+    mappings channel: 'parchment', version: "${parchment_version}"
+
 
     runs {
         all {
