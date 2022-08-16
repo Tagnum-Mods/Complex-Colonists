@@ -9,6 +9,14 @@ public final class CCUtils {
         return new ResourceLocation(ComplexColonists.MOD_ID, path);
     }
 
+    public static ResourceLocation modRlTextures(String path) {
+        return modRl("textures/" + path);
+    }
+
+    public static ResourceLocation modRlGuiTextures(String path) {
+        return modRlTextures("gui/" + path);
+    }
+
     public static ResourceLocation rlBlock(String block) {
         return modRl("block/" + block);
     }
