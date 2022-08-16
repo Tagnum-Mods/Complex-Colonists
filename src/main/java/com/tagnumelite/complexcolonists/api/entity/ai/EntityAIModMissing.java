@@ -38,11 +38,10 @@ public class EntityAIModMissing<AI extends AbstractAISkeleton<J>, J extends AMod
     }
 
     private IAIState missingMod() {
-        worker.getCitizenData()
-              .triggerInteraction(
-                      // TODO: Fix this, the MODID is not getting passed through to the interaction
-                      new StandardInteraction(new TranslatableComponent(WORKER_MISSING_MOD, new TextComponent(modId)),
-                                              ChatPriority.BLOCKING));
+        worker.getCitizenData().triggerInteraction(
+                // TODO: Fix this, the MODID is not getting passed through to the interaction
+                new StandardInteraction(new TranslatableComponent(WORKER_MISSING_MOD, new TextComponent(modId)),
+                                        ChatPriority.BLOCKING));
         return IDLE;
     }
 
