@@ -9,9 +9,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class CCBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(
-            ForgeRegistries.BLOCK_ENTITIES, ComplexColonists.MOD_ID);
+            ForgeRegistries.BLOCK_ENTITY_TYPES, ComplexColonists.MOD_ID);
 
     public static final RegistryObject<BlockEntityType<? extends CCBlockEntityColonyBuilding>> BUILDING = BLOCK_ENTITIES.register(
             "colonybuilding",
-            () -> BlockEntityType.Builder.of(CCBlockEntityColonyBuilding::new, CCBlocks.getHuts()).build(null));
+            () -> BlockEntityType.Builder.of(CCBlockEntityColonyBuilding::new, CCHuts.getHuts()).build(null));
 }

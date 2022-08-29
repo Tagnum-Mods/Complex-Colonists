@@ -42,16 +42,12 @@ import java.net.URL;
 
 @Mod(ComplexColonists.MOD_ID)
 public class ComplexColonists {
-    public static final  String       MOD_ID   = "complexcolonists";
-    public static final  Logger       LOGGER   = LogUtils.getLogger();
-    //public static final  IProxy PROXY    = DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-    private static       ModContainer MOD_CONTAINER;
+    private static       ModContainer modContainer;
     private static       boolean      hasSentMessage;
 
     public ComplexColonists() {
-        final ModLoadingContext modLoadingContext = ModLoadingContext.get();
-        final IEventBus         modEventBus       = FMLJavaModLoadingContext.get().getModEventBus();
-        MOD_CONTAINER = modLoadingContext.getActiveContainer();
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
+        IEventBus         modEventBus       = FMLJavaModLoadingContext.get().getModEventBus();
 
         //modLoadingContext.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         //modLoadingContext.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
@@ -60,11 +56,11 @@ public class ComplexColonists {
         modEventBus.addListener(this::setupClient);
         modEventBus.addListener(this::loadComplete);
 
-        //CCBlocks.BLOCKS.register(modEventBus);
-        //CCContainers.CONTAINERS.register(modEventBus);
-        //CCItems.ITEMS.register(modEventBus);
         CCBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+        CCBlocks.BLOCKS.register(modEventBus);
+        CCBuildings.BUILDINGS.register(modEventBus);
         //CCJobs.JOBS.register(modEventBus);
+        CCJobs.JOBS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

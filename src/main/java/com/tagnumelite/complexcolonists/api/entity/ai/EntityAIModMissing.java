@@ -2,8 +2,7 @@ package com.tagnumelite.complexcolonists.api.entity.ai;
 
 import com.tagnumelite.complexcolonists.ComplexColonists;
 import com.tagnumelite.complexcolonists.api.colony.jobs.AModdedJob;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +39,7 @@ public class EntityAIModMissing<AI extends AbstractAISkeleton<J>, J extends AMod
     private IAIState missingMod() {
         worker.getCitizenData().triggerInteraction(
                 // TODO: Fix this, the MODID is not getting passed through to the interaction
-                new StandardInteraction(new TranslatableComponent(WORKER_MISSING_MOD, new TextComponent(modId)),
+                new StandardInteraction(Component.translatable(WORKER_MISSING_MOD, Component.literal(modId)),
                                         ChatPriority.BLOCKING));
         return IDLE;
     }

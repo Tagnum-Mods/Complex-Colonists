@@ -3,9 +3,9 @@ package com.tagnumelite.complexcolonists.datagen;
 import com.tagnumelite.complexcolonists.ComplexColonists;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(modid = ComplexColonists.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class CCDataGenerators {
@@ -16,8 +16,10 @@ public final class CCDataGenerators {
         DataGenerator      generator          = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        if (event.includeClient()) {
-            generator.addProvider(new CCLanguageProvider(generator, "en_us"));
-        }
+        generator.addProvider(event.includeClient(), new CCBlockStateProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeClient(), new CCItemModelProvider(generator, existingFileHelper));
+        generator.addProvider(event.includeClient(), new CCSoundsProvider(generator, existingFileHelper));
+
+        generator.addProvider(event.includeClient(), new CCLanguageProvider(generator, "en_us"));
     }
 }

@@ -235,6 +235,12 @@ dependencies {
     implementation fg.deobf("com.ldtteam:multi-piston:${multi_piston_version}")
     implementation fg.deobf("com.ldtteam:blockui:${blockui_version}")
 
+    // ===== [ Runtime Mods ] =====
+
+    runtimeOnly fg.deobf("curse.maven:configured-457570:${configured_curse}")
+    runtimeOnly fg.deobf("curse.maven:ilikewood-324164:${ilikewood_curse}")
+    //runtimeOnly fg.deobf("curse.maven:journeymap-32274:${journeymap_curse}")
+
     // ===== [ Optional ] =====
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
@@ -243,8 +249,9 @@ dependencies {
     implementation fg.deobf("curse.maven:cucumber-272335:${cucumber_curse}")
     implementation fg.deobf("curse.maven:extended-crafting-268387:${extendedcrafting_curse}")
 
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 
 
 

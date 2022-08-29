@@ -3,6 +3,7 @@ package com.tagnumelite.complexcolonists.api.util;
 import com.tagnumelite.complexcolonists.ComplexColonists;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public final class CCUtils {
     public static ResourceLocation modRl(String path) {
@@ -42,7 +43,7 @@ public final class CCUtils {
     }
 
     public static String getItemKey(Item item, String path) {
-        final ResourceLocation regName = item.getRegistryName();
+        final ResourceLocation regName = ForgeRegistries.ITEMS.getKey(item);
         return "item." + (regName != null ? regName.getNamespace() + '.' : "") + regName.getPath() + '.' + path;
     }
 }

@@ -1,15 +1,14 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.tagnumelite.complexcolonists.core.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "complexcolonists.refmap.json",
-  "mixins": [
+  "required" : true,
+  "minVersion" : "0.8",
+  "package" : "com.tagnumelite.complexcolonists.core.mixin",
+  "compatibilityLevel" : "JAVA_17",
+  "refmap" : "complexcolonists.refmap.json",
+  "mixins" : [
   ],
-  "client": [
-    "MixinWindowMinecoloniesBuildTool"
+  "client" : [
   ],
-  "injectors": {
-    "defaultRequire": 1
+  "injectors" : {
+    "defaultRequire" : 1
   }
 }
