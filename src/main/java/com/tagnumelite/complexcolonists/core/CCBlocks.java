@@ -5,8 +5,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -22,7 +20,7 @@ public final class CCBlocks {
     }
 
     public static RegistryObject<Block> register(String name, Supplier<? extends Block> supplier, CreativeModeTab tab) {
-        return register(name, supplier, new Item.Properties().tab(tab));
+        return register(name, supplier, new Item.Properties()); //.tab(tab)
     }
 
     public static RegistryObject<Block> register(

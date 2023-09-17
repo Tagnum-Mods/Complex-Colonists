@@ -12,7 +12,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 
 public class CCLanguageProvider extends LanguageProvider {
     public CCLanguageProvider(DataGenerator generator, String locale) {
-        super(generator, ComplexColonists.MOD_ID, locale);
+        super(generator.getPackOutput(), ComplexColonists.MOD_ID, locale);
     }
 
     @Override

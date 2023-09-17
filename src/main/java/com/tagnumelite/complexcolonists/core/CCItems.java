@@ -11,7 +11,7 @@ public class CCItems {
                                                                                ComplexColonists.MOD_ID);
 
     public static Item.Properties GET_PROPS(CreativeModeTab tab) {
-        return new Item.Properties().tab(tab);
+        return new Item.Properties(); // .tab(tab)
     }
 
 

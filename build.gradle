@@ -1,46 +1,42 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
 
 plugins {
     id 'eclipse'
+    id 'idea'
     id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.jetbrains.changelog' version '1.2.1'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 // MixinGradle:
 apply plugin: 'org.spongepowered.mixin'
 
-version = "${mod_version}"
-group = 'com.tagnumelite.complexcolonists'
-archivesBaseName = 'complexcolonists'
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-sourceSets {
-    api {
-        java {}
-    }
-}
-
 configurations {
     library
-    apiCompile.extendsFrom(compile)
-    apiCompileOnly.extendsFrom(compileOnly)
-    apiRuntimeOnly.extendsFrom(runtimeOnly)
     implementation.extendsFrom library
 }
 
@@ -50,81 +46,58 @@ minecraft {
     // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    //mappings channel: 'official', version: "${mc_version}"
-    mappings channel: 'parchment', version: "${parchment_version}"
+    mappings channel: mapping_channel, version: mapping_version
 
+    copyIdeResources = true
 
     runs {
-        all {
-            lazyToken('minecraft_classpath') {
-                configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+        configureEach {
+            workingDirectory project.file('run')
+
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
             }
         }
 
         client {
-            workingDirectory project.file('run')
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'complexcolonists'
-
-            mods {
-                complexcolonists {
-                    //source sourceSets.api
-                    source sourceSets.main
-                }
-            }
+            property 'forge.enabledGameTestNamespaces', mod_id
         }
 
         server {
-            workingDirectory project.file('run')
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'complexcolonists'
-
-            mods {
-                complexcolonists {
-                    //source sourceSets.api
-                    source sourceSets.main
-                }
-            }
+            property 'forge.enabledGameTestNamespaces', mod_id
+            args '--nogui'
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
         // By default, the server will crash when no gametests are provided.
         // The gametest system is also enabled by default for other run configs under the /test command.
         gameTestServer {
-            workingDirectory project.file('run')
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
-            property 'forge.enabledGameTestNamespaces', 'complexcolonists'
-
-            mods {
-                complexcolonists {
-                    //source sourceSets.api
-                    source sourceSets.main
-                }
-            }
+            property 'forge.enabledGameTestNamespaces', mod_id
         }
 
         data {
-            workingDirectory project.file('run')
-
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            // example of overriding the workingDirectory set in configureEach above
+            workingDirectory project.file('run-data')
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'complexcolonists', '--all',
+            args '--mod', mod_id, '--all',
                     '--existing-mod', 'minecolonies',
                     '--existing-mod', 'blockui',
                     '--existing-mod', 'multi-piston',
@@ -133,13 +106,6 @@ minecraft {
                     '--output', file('src/generated/resources/'),
                     '--existing', file('src/main/resources/'),
                     '--existing', file('src/generated/resources/')
-
-            mods {
-                complexcolonists {
-                    //source sourceSets.api
-                    source sourceSets.main
-                }
-            }
         }
     }
 }
@@ -149,45 +115,22 @@ mixin {
     config 'complexcolonists.mixins.json'
 }
 
-processResources {
-    // TODO: Clean this up because gradle is super fucking stupid and only does expand on .properties files....
-    filesMatching('META-INF/mods.toml') {
-        filter {
-            it.replace("\${mod_version}", project.mod_version)
-        }
-        filter {
-            it.replace("\${mc_version}", project.mc_version)
-        }
-        filter {
-            it.replace("\${forge_version}", project.forge_version)
-        }
-        filter {
-            it.replace("\${blockui_version}", project.blockui_version)
-        }
-        filter {
-            it.replace("\${domum_ornamentum_version}", project.domum_ornamentum_version)
-        }
-        filter {
-            it.replace("\${minecolonies_version}", project.minecolonies_version)
-        }
-        filter {
-            it.replace("\${multi_piston_version}", project.multi_piston_version)
-        }
-        filter {
-            it.replace("\${structurize_version}", project.structurize_version)
-        }
-        /*
-        expand([
-                mod_version: project.ext.mod_version,
-                mc_version: project.ext.mc_version,
-                forge_version: project.ext.forge_version,
-                blockui_version: project.ext.blockui_version,
-                domum_ornamentum_version: project.ext.domum_ornamentum_version,
-                minecolonies_version: project.ext.minecolonies_version,
-                multi_piston_version: project.ext.multi_piston_version,
-                structurize_version: project.ext.structurize_version
-        ])
-         */
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: mc_version, minecraft_version_range: mc_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+
+            blockui_version: blockui_version, domum_ornamentum_version: domum_ornamentum_version,
+            minecolonies_version: minecolonies_version, multipiston_version: multi_piston_version,
+            structurize_version: structurize_version, minecolonies_version_range: minecolonies_version_range
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
     }
 }
 
@@ -232,12 +175,12 @@ dependencies {
     implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
     implementation fg.deobf("com.ldtteam:minecolonies:${minecolonies_version}")
     implementation fg.deobf("com.ldtteam:domum_ornamentum:${domum_ornamentum_version}:universal")
-    implementation fg.deobf("com.ldtteam:multi-piston:${multi_piston_version}")
+    implementation fg.deobf("com.ldtteam:multipiston:${multi_piston_version}")
     implementation fg.deobf("com.ldtteam:blockui:${blockui_version}")
 
     // ===== [ Runtime Mods ] =====
 
-    runtimeOnly fg.deobf("curse.maven:configured-457570:${configured_curse}")
+    //runtimeOnly fg.deobf("curse.maven:configured-457570:${configured_curse}")
     runtimeOnly fg.deobf("curse.maven:ilikewood-324164:${ilikewood_curse}")
     //runtimeOnly fg.deobf("curse.maven:journeymap-32274:${journeymap_curse}")
 
@@ -253,37 +196,36 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 
-
-
     // Mixin Stuff
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
     implementation 'com.intellij:annotations:12.0@jar'
 }
 
-jar {
+tasks.named('jar', Jar).configure {
     exclude '*.xcf'
     exclude '*.bbmodel'
     exclude '*.svg'
 
     manifest {
         attributes([
-                "Specification-Title"     : "complexcolonists",
-                "Specification-Vendor"    : "TagnumElite",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : "${mod_version}",
-                "Implementation-Vendor"   : "TagnumElite",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1', // We are version 1 of ourselves
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : project.jar.archiveVersion,
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "MixinConnector"          : "com.tagnumelite.complexcolonists.core.mixin.MixinConnector"
         ])
     }
-}
 
-jar.finalizedBy('reobfJar')
+    // This is the preferred method to reobfuscate your jar file
+    finalizedBy 'reobfJar'
+}
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        register('mavenJava', MavenPublication) {
             artifact jar
         }
     }
@@ -292,6 +234,10 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
 
 changelog {
