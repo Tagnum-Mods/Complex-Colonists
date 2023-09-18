@@ -2,15 +2,15 @@ package com.tagnumelite.complexcolonists.datagen;
 
 import com.tagnumelite.complexcolonists.ComplexColonists;
 import com.tagnumelite.complexcolonists.api.util.constants.TranslationConstants;
-import com.tagnumelite.complexcolonists.core.CCHuts;
-import com.tagnumelite.complexcolonists.core.CCTabs;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.data.LanguageProvider;
+
+import static com.tagnumelite.complexcolonists.api.util.constants.TranslationConstants.*;
 
 
 public class CCLanguageProvider extends LanguageProvider {
+
     public CCLanguageProvider(DataGenerator generator, String locale) {
         super(generator.getPackOutput(), ComplexColonists.MOD_ID, locale);
     }
@@ -26,9 +26,9 @@ public class CCLanguageProvider extends LanguageProvider {
     }
 
     protected void addGeneral() {
-        addCreativeTab(CCTabs.GENERAL, "Complex Colonists");
-        addCreativeTab(CCTabs.DECORATIONS, "Complex Colonists: Decorations");
-        addCreativeTab(CCTabs.UNLOADED, "Complex Colonists: Missing Mods");
+        add(CREATIVE_TAB_GENERAL, "Complex Colonists");
+        add(CREATIVE_TAB_DECORATIONS, "Complex Colonists: Decorations");
+        add(CREATIVE_TAB_UNLOADED, "Complex Colonists: Missing Mods");
     }
 
     private void addBlocks() {
@@ -50,9 +50,5 @@ public class CCLanguageProvider extends LanguageProvider {
     protected void addGUIs() {
         add(TranslationConstants.WORKER_MISSING_MOD, "This worker is missing the required mod (%1$s) to be activated");
         add(TranslationConstants.UPDATE_AVAILABLE, "There is an update for Complex Colonists. %s -> %s");
-    }
-
-    protected void addCreativeTab(CreativeModeTab tab, String value) {
-        add(tab.getDisplayName().getString(), value);
     }
 }

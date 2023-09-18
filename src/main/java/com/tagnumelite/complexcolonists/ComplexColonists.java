@@ -30,8 +30,8 @@ public class ComplexColonists {
         //modLoadingContext.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
 
         modEventBus.addListener(this::setup);
-        modEventBus.addListener(this::setupClient);
-        modEventBus.addListener(this::loadComplete);
+        //modEventBus.addListener(this::setupClient);
+        //modEventBus.addListener(this::loadComplete);
 
         CCBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         //CCBlocks.BLOCKS.register(modEventBus);
@@ -48,9 +48,9 @@ public class ComplexColonists {
         //PROXY.init();
     }
 
-    private void loadComplete(Event event) {}
+    //private void loadComplete(Event event) {}
 
-    private void setupClient(Event event) {}
+    //private void setupClient(Event event) {}
 
     private void setup(final FMLCommonSetupEvent event) {
         //StructureLoadingUtils.addOriginMod(MOD_ID);

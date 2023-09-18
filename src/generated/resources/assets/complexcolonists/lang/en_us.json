@@ -1,0 +1,7 @@
+{
+  "gui.complexcolonists.update_available": "There is an update for Complex Colonists. %s -> %s",
+  "gui.complexcolonists.worker.missing_mod": "This worker is missing the required mod (%1$s) to be activated",
+  "tab.complexcolonists.decorations": "Complex Colonists: Decorations",
+  "tab.complexcolonists.general": "Complex Colonists",
+  "tab.complexcolonists.unloaded": "Complex Colonists: Missing Mods"
+}
