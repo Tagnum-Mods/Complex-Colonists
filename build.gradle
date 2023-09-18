@@ -35,11 +35,6 @@ base {
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-configurations {
-    library
-    implementation.extendsFrom library
-}
-
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     // You must be aware of the Mojang license when using the 'official' mappings.
@@ -171,7 +166,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
     // ===== [ Minecolonies ] =====
-    library fg.deobf("com.ldtteam:datagenerators:${datagen_version}")
+    implementation fg.deobf("com.ldtteam:datagenerators:1.19.3-${datagen_version}:universal")
     implementation fg.deobf("com.ldtteam:structurize:${structurize_version}")
     implementation fg.deobf("com.ldtteam:minecolonies:${minecolonies_version}")
     implementation fg.deobf("com.ldtteam:domum_ornamentum:${domum_ornamentum_version}:universal")
