@@ -2,16 +2,20 @@ package com.tagnumelite.complexcolonists;
 
 import com.mojang.logging.LogUtils;
 import com.tagnumelite.complexcolonists.core.CCBlockEntities;
+import com.tagnumelite.complexcolonists.core.CCTabs;
 import com.tagnumelite.complexcolonists.core.init.CCInteractionValidatorInit;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
 
 @Mod(ComplexColonists.MOD_ID)
@@ -30,7 +34,7 @@ public class ComplexColonists {
         //modLoadingContext.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
 
         modEventBus.addListener(this::setup);
-        //modEventBus.addListener(this::setupClient);
+        modEventBus.addListener(this::setupClient);
         //modEventBus.addListener(this::loadComplete);
 
         CCBlockEntities.BLOCK_ENTITIES.register(modEventBus);
@@ -38,6 +42,7 @@ public class ComplexColonists {
         //CCBuildings.BUILDINGS.register(modEventBus);
         //CCJobs.JOBS.register(modEventBus);
         //CCJobs.JOBS.register(modEventBus);
+        CCTabs.TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -48,12 +53,20 @@ public class ComplexColonists {
         //PROXY.init();
     }
 
-    //private void loadComplete(Event event) {}
+    //private void loadComplete(FMLCommonSetupEvent event) {
+    //
+    //}
 
-    //private void setupClient(Event event) {}
+    private void setupClient(FMLClientSetupEvent event) {
+
+    }
 
     private void setup(final FMLCommonSetupEvent event) {
         //StructureLoadingUtils.addOriginMod(MOD_ID);
     }
 
+    @SubscribeEvent
+    public static void serverStarting(ServerStartingEvent event) {
+
+    }
 }

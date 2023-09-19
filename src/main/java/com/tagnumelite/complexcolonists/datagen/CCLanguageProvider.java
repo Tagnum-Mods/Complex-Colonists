@@ -26,9 +26,10 @@ public class CCLanguageProvider extends LanguageProvider {
     }
 
     protected void addGeneral() {
-        add(CREATIVE_TAB_GENERAL, "Complex Colonists");
-        add(CREATIVE_TAB_DECORATIONS, "Complex Colonists: Decorations");
-        add(CREATIVE_TAB_UNLOADED, "Complex Colonists: Missing Mods");
+        add(TranslationConstants.CREATIVE_TAB_GENERAL, "Complex Colonists");
+        add(TranslationConstants.CREATIVE_TAB_DECORATIONS, "Complex Colonists: Decorations");
+        add(TranslationConstants.CREATIVE_TAB_UNLOADED, "Complex Colonists: Missing Mods");
+        add(TranslationConstants.CONFIG_DEBUG_MODE, "Enable debug mode?");
     }
 
     private void addBlocks() {
