@@ -1,9 +1,9 @@
 package com.tagnumelite.complexcolonists;
 
 import com.mojang.logging.LogUtils;
-import com.tagnumelite.complexcolonists.core.CCBlockEntities;
-import com.tagnumelite.complexcolonists.core.CCTabs;
+import com.tagnumelite.complexcolonists.core.*;
 import com.tagnumelite.complexcolonists.core.init.CCInteractionValidatorInit;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -38,17 +38,16 @@ public class ComplexColonists {
         //modEventBus.addListener(this::loadComplete);
 
         CCBlockEntities.BLOCK_ENTITIES.register(modEventBus);
-        //CCBlocks.BLOCKS.register(modEventBus);
-        //CCBuildings.BUILDINGS.register(modEventBus);
-        //CCJobs.JOBS.register(modEventBus);
-        //CCJobs.JOBS.register(modEventBus);
+        CCBlocks.BLOCKS.register(modEventBus);
+        CCItems.ITEMS.register(modEventBus);
+        CCBuildings.BUILDINGS.register(modEventBus);
+        CCJobs.JOBS.register(modEventBus);
         CCTabs.TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
         CCInteractionValidatorInit.init();
-
 
         //PROXY.init();
     }
